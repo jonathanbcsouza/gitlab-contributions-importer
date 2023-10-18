@@ -9,17 +9,19 @@ file_name="gitlab_contributions.patch"
 
 dates=($(grep '^Date: ' $file_name | cut -d' ' -f2))
 times=($(grep '^Date: ' $file_name | cut -d' ' -f3))
-contr_type=($(awk -F'[()]' '/^Subject:/ {split($2,a,"-"); print a[1]}' $file_name))
-source="Gitlab"
+contr_type=($(grep '^Subject: ' $file_name | awk -F'(' '{print $2}' | cut -d')' -f1))
+source="GitLab"
 origin="GitHub"
-commit_message="docs: import $contr_type contribution data from $source"
 
 combined_dates=()
 for i in "${!dates[@]}"; do
     combined_dates+=("${dates[$i]} ${times[$i]}")
 done                              
 
-for line in "${combined_dates[@]}"; do
+for i in "${!combined_dates[@]}"; do
+  line="${combined_dates[$i]}"
+  commit_type="${contr_type[$i]}"
+  commit_message="docs: import $commit_type contribution data from $source"
 
   # Add the contribution to the contributions.txt file
   echo "$commit_message | $line" >> contributions.txt
