@@ -9,7 +9,7 @@ file_name="gitlab_contributions.patch"
 
 dates=($(grep '^Date: ' $file_name | cut -d' ' -f2))
 times=($(grep '^Date: ' $file_name | cut -d' ' -f3))
-contr_type=($(grep '^Subject: ' $file_name | awk -F'(' '{print $2}' | cut -d')' -f1))
+contr_type=($(grep '^Subject: ' $file_name | awk -F'(' '{print $2}' | cut -d')' -f1 | sed 's/-icon$//'))
 source="GitLab"
 origin="GitHub"
 
