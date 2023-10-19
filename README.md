@@ -1,50 +1,113 @@
-# VCS Contributions Importer Tool
+## VCS Contributions Importer Tool
 
-## Overview
+### Overview
 
-This tool facilitates the migration or mirroring of commits between different repositories or version control systems (VCSs), making it useful for mirroring contribution charts and commit histories across multiple VCS platforms, such as GitLab and GitHub. The tool comprises two Python scripts (`gitlab_data_parser.py` and `contributions_register.py`) that work together to generate and utilize a `.patch` file from GitLab data, creating corresponding commits on GitHub.
+This tool facilitates the migration or mirroring of commits between different version control systems (VCSs). It's especially useful for mirroring contribution charts and histories across platforms such as GitLab and GitHub. The tool comprises three Python scripts:
 
-## Features
+- `gitlab_page_scraper.py`
+- `gitlab_data_parser.py`
+- `contributions_register.py`
 
+These scripts collaborate to scrape and generate user contribution information from the `https://gitlab.com/users/user_name/activity` Gitlab page, subsequently creating corresponding commits on GitHub.
+
+### Features
+
+- Provides updates on the terminal about the script's progress, showing the date of the most recent contribution scanned.
 - Parses a local HTML file containing GitLab contribution data.
-- Generates a `.patch` file (`gitlab_contributions.patch`) based on the extracted contribution data.
-- Extracts data from the `.patch` file and creates commits with corresponding messages and dates.
+- Generates a `.patch` file (`gitlab_contributions.patch`) using parsed data.
+- Extracts data from the `.patch` file to create commits with corresponding contribution type messages and dates.
 - Optionally pushes these commits to a target GitHub repository.
-- Helps ensure that contributions made on GitLab are accurately reflected on GitHub's contribution chart.
+- Ensures that contributions made on GitLab are refected on GitHub's contribution chart.
 
-## Usage
+### Requirements
 
-1. **Prepare the HTML File:**
+#### System Requirements
 
-   Save an HTML file containing your GitLab contribution data locally.
+1. **Python**: Must have Python (3.x or above) installed. [Download Python](https://www.python.org/downloads/).
+2. **Git**: Git should be installed and configured correctly. [Install Git](https://git-scm.com/downloads).
 
-2. **Run the GitLab Data Parser Script:**
+#### Python Libraries
 
-   - Ensure you have Python installed on your machine.
-   - Save the script `gitlab_data_parser.py` in your project directory.
-   - Run the script by entering the following command:
+Install the following Python libraries to run the scripts:
 
-   ```shell
-   python gitlab_data_parser.py
+1. **Selenium**: Used for web scraping.
+
+   ```bash
+   pip install selenium
    ```
 
-   This will generate a `gitlab_contributions.patch` file based on your GitLab contribution data.
-
-3. **Run the Contributions Register Script:**
-
-   - Save the script `contributions_register.py` in your project directory alongside the generated `.patch` file.
-   - Run the script by entering the following command:
-
-   ```shell
-   python contributions_register.py
+2. **BeautifulSoup4**: Essential for parsing HTML content.
+   ```bash
+   pip install beautifulsoup4
    ```
 
-   This script will read the `gitlab_contributions.patch` file, create commits based on the extracted data, and optionally push these commits to your GitHub repository.
+#### Additional Tools
 
-4. **View Your Contributions:**
+- **Selenium WebDriver**: The `gitlab_page_scraper.py` script needs the Selenium WebDrive.
 
-   Check your GitHub repository's contribution chart to see the migrated contributions from GitLab.
+- **Git Configuration**: Before using the `contributions_register.py` script, verify your local git configuration and GitHub repository initialization.
 
-## Note
+#### Optional
 
-Make sure that your local git configuration is correctly set up, and your GitHub repository is properly initialized before running the `contributions_register.py` script.
+- **Virtual Environment**: It's recommended to operate Python scripts in a virtual environment to prevent version clashes and maintain system Python integrity. Consider tools like `virtualenv` or the native `venv` module.
+
+  Create a virtual environment:
+
+  ```bash
+  python -m venv myenv
+  ```
+
+  Activation:
+
+  - Windows:
+
+    ```bash
+    .\myenv\Scripts\activate
+    ```
+
+  - macOS and Linux:
+    ```bash
+    source myenv/bin/activate
+    ```
+
+  With the environment activated, install the necessary libraries.
+
+### Usage
+
+1. **Scrape GitLab Activity Page**:
+
+   - Ensure Python and Selenium WebDriver are installed.
+   - Store the `gitlab_page_scraper.py` script in your project directory.
+   - Execute the script:
+     ```bash
+     python gitlab_page_scraper.py
+     ```
+
+   It will save an HTML file of your GitLab contribution data locally..
+
+2. **Run the Contributions Register Script**:
+
+   - Store the `gitlab_data_parser.py` script in your project directory.
+   - Execute the script:
+     ```bash
+     python gitlab_data_parser.py
+     ```
+   - This generates a `gitlab_contributions.patch` file based on your GitLab contribution data.
+
+3. **Run the Contributions Register Script**:
+
+   - Save the `contributions_register.py` script in root folder of your project directory the produced `.patch` file.
+   - Execute the script:
+     ```python
+     python contributions_register.py
+     ```
+
+   This script processes the `gitlab_contributions.patch` file, creates commits from the parsed data, and optionally sends these commits to your GitHub repository. It also creates a `contributions.txt` file summarizing all commits prepared for push. Review this in your repo before executing `git push`.
+
+4. **View Your Contributions**:
+
+   After finalizing and pushing the changes, inspect your GitHub repository's contribution chart to observe the transferred contributions from GitLab 😎.
+
+### Note
+
+Before executing the `contributions_register.py` script, double-check your local git configuration and ensure your GitHub repository has been initialized properly.
