@@ -6,16 +6,15 @@ green_color = "\033[32m"
 red_color = "\033[31m"
 
 tasks_and_files = [
-    ('Data Scraper', 'contributions_page_scraper.py'),
-    ('Data Parser', 'data_parser.py'),
-    ('Commits Generator', 'contributions_register.py'),
+    ('"Collect GitLab Data and Create HTML File"', 'contributions_page_scraper.py'),
+    ('"Extract Patch Data from HTML"', 'data_parser.py'),
+    ('"Generate Contribution from Patch File"', 'contributions_register.py'),
 ]
 
-
 def execute_task(task, file_name):
-    print(f"Executing {task} {file_name}...")
-    # subprocess.run([python_executable, file_name])
-    print(f"{green_color}{task} completed.{default_color}\n")    
+    print(f"Executing {file_name}...")
+    subprocess.run([python_executable, file_name])
+    print(f"{green_color}{task} task completed.{default_color}\n")    
 
 if __name__ == "__main__":
     try:
