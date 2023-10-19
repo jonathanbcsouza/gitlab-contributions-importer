@@ -23,11 +23,7 @@ def create_commits(data):
         subprocess.run(["git", "commit", "-m", commit_message, "--date", date], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
         print(f"Executed: git commit -m \"{commit_message}\" --date \"{date}\"")
 
-
-    # Uncomment the line below if you want to push changes automatically
-    # subprocess.run(["git", "push", "origin", "main"])
-
-    print("Success! All contributions from GitLab have been successfully migrated and will soon be visible on your GitHub profile.")
+    print("Success! All commits containing contribution data from GitLab have been successfully staged and are ready for sending.")
 
 if __name__ == "__main__":
     data = extract_data_from_patch_file("gitlab_contributions.patch")
