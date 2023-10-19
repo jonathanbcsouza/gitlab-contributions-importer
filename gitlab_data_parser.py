@@ -8,9 +8,8 @@ def extract_data_from_html(html_content):
     extracted_data = []
     
     for item in event_items:
-        # Extracting the date
         time_element = item.find('time', class_='js-timeago')
-        date_str = ' '.join(time_element['title'].split()[:4])  # Extracting: "Sep 28, 2023 11:55pm"
+        date_str = ' '.join(time_element['title'].split()[:4]) 
         
         # Convert date to the desired format
         date_obj = datetime.strptime(date_str, '%b %d, %Y %I:%M%p')
@@ -50,8 +49,8 @@ index 1234567..1234567 100644
     return patch_content
 
 if __name__ == "__main__":
-    # For simplicity, read the HTML content from a local file
-    with open('mock_gitlab_data.html', 'r') as f:
+    # Read content from scraped data
+    with open('gitlab_data.html', 'r') as f:
         html_content = f.read()
         
     data = extract_data_from_html(html_content)
