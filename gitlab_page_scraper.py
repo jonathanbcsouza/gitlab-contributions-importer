@@ -1,5 +1,6 @@
 import time
 from datetime import datetime
+import requests
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -10,6 +11,18 @@ def setup_driver():
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")
     return webdriver.Chrome(options=chrome_options)
+
+def check_user_exists(gitlab_username):
+    response = requests.head(f'https://gitlab.com/users/{gitlab_username}/activity')
+    return response.status_code == 200
+
+def get_username():
+    while True:
+        gitlab_username = input("Please enter your GitLab username: ")
+        if check_user_exists(gitlab_username):
+            return gitlab_username
+        else:
+            print("User does not exist, try again.")
 
 def scroll_to_bottom(driver):
     last_height = driver.execute_script("return document.body.scrollHeight")
@@ -41,8 +54,9 @@ def save_html(page_source, file_path):
     print(f'HTML data saved to {file_path}')
 
 def main():
+    gitlab_username = get_username()  # Get a valid GitLab username from the user
     driver = setup_driver()
-    driver.get('https://gitlab.com/users/jonathanbcsouza/activity')
+    driver.get(f'https://gitlab.com/users/{gitlab_username}/activity')
     
     start_time = time.time()
     scroll_to_bottom(driver)
