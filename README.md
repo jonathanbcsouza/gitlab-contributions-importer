@@ -2,33 +2,32 @@
 
 ### Overview
 
-This tool facilitates the migration or mirroring of commits between different version control systems (VCSs). It's especially useful for mirroring contribution charts and histories across platforms such as GitLab and GitHub. The tool comprises three Python scripts:
+This fun experiment facilitates the migration or mirroring of commits between version control systems (VCSs). While GitLab likely offers an API to manage these tasks more efficiently, this tool provides an alternative approach by exploring web scraping and data parsing techniques. It's designed to mirror publicly visible contributions and histories on GitLab over to GihHUb through three Python scripts:
 
-- `gitlab_page_scraper.py`
-- `gitlab_data_parser.py`
+- `contributions_page_scraper.py`
+- `data_parser.py`
 - `contributions_register.py`
 
-These scripts collaborate to scrape and generate user contribution information from the `https://gitlab.com/users/user_name/activity` Gitlab page, subsequently creating corresponding commits on GitHub.
+These scripts work together to scrape user contribution information from the `https://gitlab.com/users/user_name/activity` Gitlab page and create corresponding commits on GitHub.
 
 ### Features
 
-- Provides updates on the terminal about the script's progress, showing the date of the most recent contribution scanned.
-- Parses a local HTML file containing GitLab contribution data.
-- Generates a `.patch` file (`gitlab_contributions.patch`) using parsed data.
-- Extracts data from the `.patch` file to create commits with corresponding contribution type messages and dates.
-- Optionally pushes these commits to a target GitHub repository.
-- Ensures that contributions made on GitLab are refected on GitHub's contribution chart.
+- Provides updates about script progression, showcasing the date of the last contribution scanned.
+- Parses a local HTML file that contains GitLab contribution data.
+- Generates a `.patch` file (`gitlab_contributions.patch`) from parsed data.
+- Uses the `.patch` file to generate commits with cooresponding contribution messages and timestamps.
+- Aims to ensure that GitLab contributions mirror those on GitHub's contribution chart.
 
 ### Requirements
 
 #### System Requirements
 
-1. **Python**: Must have Python (3.x or above) installed. [Download Python](https://www.python.org/downloads/).
-2. **Git**: Git should be installed and configured correctly. [Install Git](https://git-scm.com/downloads).
+1. **Python**: Python (3.x or above) is essential. [Download Python](https://www.python.org/downloads/).
+2. **Git**: Ensure Git is installed and appropriately configured. [Install Git](https://git-scm.com/downloads).
 
 #### Python Libraries
 
-Install the following Python libraries to run the scripts:
+The following Python libraries are required:
 
 1. **Selenium**: Used for web scraping.
 
@@ -36,22 +35,21 @@ Install the following Python libraries to run the scripts:
    pip install selenium
    ```
 
-2. **BeautifulSoup4**: Essential for parsing HTML content.
+2. **BeautifulSoup4**: For HTML content parsing.
    ```bash
    pip install beautifulsoup4
    ```
 
 #### Additional Tools
 
-- **Selenium WebDriver**: The `gitlab_page_scraper.py` script needs the Selenium WebDrive.
-
-- **Git Configuration**: Before using the `contributions_register.py` script, verify your local git configuration and GitHub repository initialization.
+- **Selenium WebDriver**: `contributions_page_scraper.py` relies on this.
+- **Git Configuration**: Ensure you've configured git locally and initialized your GitHub repository before using `contributions_register.py`.
 
 #### Optional
 
-- **Virtual Environment**: It's recommended to operate Python scripts in a virtual environment to prevent version clashes and maintain system Python integrity. Consider tools like `virtualenv` or the native `venv` module.
+- **Virtual Environment**: It's always a good practice to run Python scripts in a virtual environment to avoid version conflicts and keep your system Python clean. You can use tools like `virtualenv` or the built-in `venv` module.
 
-  Create a virtual environment:
+  Set up a virtual environment:
 
   ```bash
   python -m venv myenv
@@ -70,44 +68,45 @@ Install the following Python libraries to run the scripts:
     source myenv/bin/activate
     ```
 
-  With the environment activated, install the necessary libraries.
+  Once activated, install the necessary libraries within this virtual environment.
 
 ### Usage
 
 1. **Scrape GitLab Activity Page**:
 
    - Ensure Python and Selenium WebDriver are installed.
-   - Store the `gitlab_page_scraper.py` script in your project directory.
-   - Execute the script:
+   - Copy and paste `contributions_page_scraper.py` in your project directory.
+   - Run the script:
      ```bash
-     python gitlab_page_scraper.py
+     python contributions_page_scraper.py
      ```
 
-   It will save an HTML file of your GitLab contribution data locally..
+   This saves a local HTML file with your GitLab contribution data.
 
 2. **Run the Contributions Register Script**:
 
-   - Store the `gitlab_data_parser.py` script in your project directory.
-   - Execute the script:
+   - Copy and paste `data_parser.py` in your project directory.
+   - Run the script:
      ```bash
-     python gitlab_data_parser.py
+     python data_parser.py
      ```
-   - This generates a `gitlab_contributions.patch` file based on your GitLab contribution data.
+
+   This produces a `gitlab_contributions.patch` file based on your GitLab contribution data.
 
 3. **Run the Contributions Register Script**:
 
-   - Save the `contributions_register.py` script in root folder of your project directory the produced `.patch` file.
-   - Execute the script:
+   - Copy and paste `contributions_register.py` is your project directory.
+   - Run the script:
      ```python
      python contributions_register.py
      ```
 
-   This script processes the `gitlab_contributions.patch` file, creates commits from the parsed data, and optionally sends these commits to your GitHub repository. It also creates a `contributions.txt` file summarizing all commits prepared for push. Review this in your repo before executing `git push`.
+   This script processes the `gitlab_contributions.patch` file, creates commits from the data, and optionally pushes these commits to your GitHub repository. It also generates a `contributions.txt` file summarizing all commits set for push. Review this file in your repo before performing a `git push`.
 
 4. **View Your Contributions**:
 
-   After finalizing and pushing the changes, inspect your GitHub repository's contribution chart to observe the transferred contributions from GitLab 😎.
+   After pushing the changes, inspect your GitHub repository's contribution chart to see the contributions inserted from GitLab 😎.
 
 ### Note
 
-Before executing the `contributions_register.py` script, double-check your local git configuration and ensure your GitHub repository has been initialized properly.
+Before running the `contributions_register.py` script, ensure your local git configuration is set correctly and that your GitHub repository has been properly initialized.
