@@ -1,35 +1,29 @@
-import time
 import subprocess
 import sys
 
-set_default_prompt_color = "\033[0m"
-set_green_color = "\033[32m"
-set_red_color = "\033[31m"
+default_color = "\033[0m"
+green_color = "\033[32m"
+red_color = "\033[31m"
 
-def scrape_gitlab_activity_page():
-    print("Scraping GitLab Activity Page...")
-    subprocess.run([python_executable, "contributions_page_scraper.py"])
-    print(f"{set_green_color}Scraping completed.{set_default_prompt_color}\n")
+tasks_and_files = [
+    ('Data Scraper', 'contributions_page_scraper.py'),
+    ('Data Parser', 'data_parser.py'),
+    ('Commits Generator', 'contributions_register.py'),
+]
 
-def run_data_parser():
-    print("Running Data Parser...")
-    subprocess.run([python_executable, "data_parser.py"])
-    print(f"{set_green_color}Data parsing completed.{set_default_prompt_color}\n")
 
-def run_contributions_register():
-    print("Running Contributions Register...")
-    subprocess.run([python_executable, "contributions_register.py"])
-    print(f"{set_green_color}Contributions registration completed.{set_default_prompt_color}\n")  # Added "\n" for a line break
-    
+def execute_task(task, file_name):
+    print(f"Executing {task} {file_name}...")
+    # subprocess.run([python_executable, file_name])
+    print(f"{green_color}{task} completed.{default_color}\n")    
 
 if __name__ == "__main__":
     try:
         # Use the which command to find the path to Python executable
         python_executable = subprocess.check_output(["which", "python3"]).decode().strip()
     except subprocess.CalledProcessError:
-        print(f"{set_red_color}Error: Python3 not found.{set_default_prompt_color}\n")
+        print(f"{red_color}Error: Python3 not found.{default_color}\n")
         sys.exit(1)
 
-    scrape_gitlab_activity_page()
-    run_data_parser()
-    run_contributions_register()
+    for task, file_name in tasks_and_files:
+        execute_task(task, file_name)
