@@ -2,7 +2,9 @@
 
 ### Overview
 
-This fun experiment facilitates the migration or mirroring of contributions between GitLab and another VCS platform. While GitLab likely offers an API for more efficient management, this tool explores web scraping and data parsing techniques as an alternative approach. It's designed to mirror publicly visible contributions and histories from GitLab into another platform using three different stages:
+Want to showcase your GitLab contributions on GitHub? 👀
+
+This tool is a fun experiment that enables you to reflect your contribution history based on public GitLab data. While GitLab might have an API offering similar functionalities, this project utilizes web scraping and data parsing techniques as a alternative approach. It's designed to mirror these contributions to another VCS platform through a three-stage process:
 
 | Task                                                 | Script                          |
 | :--------------------------------------------------- | :------------------------------ |
