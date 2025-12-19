@@ -27,7 +27,7 @@ def generate_patch(data):
     patch_content = ""
     for date_str, icon_type in data:
         patch_entry = f"""From 1234567 {date_str}
-From: User <test@example.com>
+From: User <user@example.com>
 Date: {date_str}
 Subject: [PATCH] Contribution on {date_str} ({icon_type})
 
