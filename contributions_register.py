@@ -20,7 +20,9 @@ def create_commits(data):
         
         # Git commands to commit the changes, suppressing the actual output
         subprocess.run(["git", "add", "contributions.txt"])
-        subprocess.run(["git", "commit", "-m", commit_message, "--date", date], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+        env = os.environ.copy()
+        env["GIT_COMMITTER_DATE"] = date
+        subprocess.run(["git", "commit", "-m", commit_message, "--date", date], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, env=env)
         print(f"Executed: git commit -m \"{commit_message}\" --date \"{date}\"")
 
     print("Success! All commits containing contribution data from GitLab have been successfully staged and are ready for sending.")
