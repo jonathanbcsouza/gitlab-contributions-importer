@@ -3,24 +3,23 @@ from bs4 import BeautifulSoup
 
 def extract_data_from_html(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
-    event_items = soup.find_all('div', class_='event-item')
+    event_items = soup.find_all('li', class_='event-item gl-border-b-0 gl-pb-3 gl-list-none user-profile-activity !gl-pl-7')
     
     extracted_data = []
     
     for item in event_items:
-        time_element = item.find('time', class_='js-timeago')
-        date_str = ' '.join(time_element['title'].split()[:4]) 
-        
-        # Convert date to the desired format
-        date_obj = datetime.strptime(date_str, '%b %d, %Y %I:%M%p')
-        formatted_date = date_obj.strftime('%Y-%m-%d %H:%M:%S')
+        time_element = item.find('div', class_='event-item-timestamp gl-text-sm').find('time', class_='js-timeago')
+        date_str = time_element['datetime'].replace('T', ' ').replace('Z', '')
         
         # Extracting the contribution type
-        event_title_div = item.find('div', class_='event-title d-flex flex-wrap')
-        icon_element = event_title_div.find('svg', class_='s14', attrs={"data-testid": True})
-        icon_type = icon_element['data-testid'] if icon_element else "unknown-icon"
+        event_title_div = item.find('div', class_='system-note-image pushed-to-icon gl-rounded-full gl-bg-strong gl-leading-0')
+        if event_title_div is not None:
+            icon_element = event_title_div.find('svg', class_='s14', attrs={"data-testid": True})
+            icon_type = icon_element['data-testid'] if icon_element else "unknown-icon"
+        else:
+            icon_type = "unknown-icon"
         
-        extracted_data.append((formatted_date, icon_type))
+        extracted_data.append((date_str, icon_type))
         
     return extracted_data
 
@@ -50,7 +49,7 @@ index 1234567..1234567 100644
 
 if __name__ == "__main__":
     # Read content from scraped data
-    with open('gitlab_data.html', 'r') as f:
+    with open('gitlab_data.html', 'r', encoding='utf-8') as f:
         html_content = f.read()
         
     data = extract_data_from_html(html_content)
